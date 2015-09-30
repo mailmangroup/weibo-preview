@@ -1,5 +1,3 @@
-@import '../../kawo/app/app/styles/main.css';
-
 body {
 	background: #e5e5e5;
 	max-height: 100vh;
@@ -56,11 +54,12 @@ a:hover {
 
 .sidebar {
 	background: #FFF;
-	width: 500px;
+	width: 540px;
 	height: 100vh;
 	padding: 30px;
 	overflow: scroll;
 	margin: 0;
+	box-sizing: border-box;
 }
 
 .sidebar .btn-group {
@@ -68,41 +67,8 @@ a:hover {
 	text-align: left;
 }
 
-.btn-img .image {
-	background-image: none;
-}
-
-.btn-img {
-	padding-left: 40px;
-}
-
-.btn-img img {
-	max-height: 70%;
-	vertical-align: middle;
-	top: 15%;
-	fill: #FFF;
-}
-
-.btn-group {
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-
 #images .btn {
 	margin: 2px;
-}
-
-.github,
-.github:hover {
-	background-color: black;
-	color: #FFF;
-}
-
-.twitter,
-.twitter:hover {
-	color: #FFF;
-	background-color: #55acee;
 }
 
 input,
@@ -167,4 +133,129 @@ select {
 		padding: 50px 0;
 	}
 
+}
+
+/* =======================================================================================
+BUTTONS
+======================================================================================= */
+.btn {
+	display: inline-block;
+	height: 44px;
+	min-width: 44px;
+	text-decoration: none;
+	font-size: 10px;
+	line-height: 44px;
+	padding: 0 10px 0 12px;
+	margin: 10px 0 10px 0;
+	position: relative;
+	transition: all .5s;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	border: none;
+	border-radius: 0;
+	text-decoration: none;
+	color: #555;
+	background-color: rgba(0,0,0,0.07);
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 600;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+
+.btn:hover {
+	color: #333;
+	background-color: rgba(0,0,0,0.13);
+}
+
+.btn:after,
+.btn:before {
+	background-color: #555;
+	border-color: #555;
+}
+
+.btn:hover:after,
+.btn:hover:before {
+	background-color: #333;
+	border-color: #333;
+}
+
+.btn-img {
+	padding-left: 40px;
+}
+
+.btn img,
+.btn .image,
+.btn:hover .image {
+	width: 44px;
+	height: 44px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: transparent;
+	margin: 0;
+}
+
+.btn-img .image {
+	background-image: none;
+}
+
+.btn-img img {
+	max-height: 70%;
+	vertical-align: middle;
+	top: 15%;
+	fill: #FFF;
+}
+
+.btn-group {
+    width: 100%;
+
+    padding: 0 10px;
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.btn-group > .btn {
+	-webkit-flex: 1 1 0px;
+	-ms-flex: 1 1 0px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0px;
+	margin-right: 2px;
+}
+
+.btn-group > .btn:last-child {
+	margin-right: 0;
+}
+
+@media screen and (min-width: 601px) {
+
+	.btn {
+		font-size: 14px;
+		border-radius: 2px;
+	}
+
+}
+
+.github,
+.github:hover {
+	background-color: black;
+	color: #FFF;
+}
+
+.twitter,
+.twitter:hover {
+	color: #FFF;
+	background-color: #55acee;
 }
