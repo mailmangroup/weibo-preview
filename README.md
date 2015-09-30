@@ -16,7 +16,7 @@ $ bower install weibo-preview
 ```javascript
 require.config({
     paths: {
-        preview_copy: './bower_components/weibo-preview/dist/weibo-preview.min.js'
+        preview: './bower_components/weibo-preview/dist/weibo-preview.min'
     }
 });
 
