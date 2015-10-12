@@ -1,6 +1,11 @@
 /* GENERAL
  * ------------------------------------------------------------------------- */
 
+.preview-container p,
+.preview-container span {
+	font-family: PingFang-SC-Regular, Helvetica, sans-serif;
+}
+
 .preview-container {
 	max-width: 414px;
 	max-height: 736px;
@@ -28,8 +33,10 @@
 	padding: 0;
 	word-break: break-all;
 	word-wrap: break-word;
-	line-height: 1.35rem;
+	line-height: 1.5rem;
+    letter-spacing: 0.8px;
 	font-size: 1rem;
+	font-weight: 400;
 }
 
 .post-wrapper a,
@@ -78,9 +85,23 @@
 	margin: 0.75rem 0 0.5rem 0.75rem;
 	background-size: cover;
 	background-repeat: no-repeat;
-	border: .0625rem solid #e4e4e4;
 	position: relative;
 	background-image: url( './images/profile.png' );
+}
+
+.post-wrapper .account-image:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #e4e4e4;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
 }
 
 .post-wrapper .verified .account-image:after {
@@ -92,8 +113,8 @@
 	display: block;
 	background-size: cover;
 	background-repeat: no-repeat;
-	bottom: -6px;
-	right: -6px;
+	bottom: -4px;
+	right: -5px;
 
 }
 

@@ -1,7 +1,9 @@
 # Weibo Preview
+[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.1-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
-## Introduction
 To provide a better service of publishing through our platform, we wanted a way for users to see a live preview of how their post will look within Weibo.
+
+[View the demo](https://github.com/mailmangroup/weibo-preview)
 
 ## Installation
 ```
@@ -14,7 +16,7 @@ $ bower install weibo-preview
 ```javascript
 require.config({
     paths: {
-        preview_copy: './bower_components/weibo-preview/dist/weibo-preview.min.js'
+        preview: './bower_components/weibo-preview/dist/weibo-preview.min'
     }
 });
 
