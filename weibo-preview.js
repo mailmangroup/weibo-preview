@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.2
+ * Version: 1.0.3
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -220,8 +220,8 @@
 
 			// SET DEFAULT VALUES
 			var defaults = {
-				postText: 'Post text...',
-				accountName: 'Account Name',
+				postText: '微博正文。。。',
+				accountName: '账户名称',
 				accountImage: null,
 				postTime: '刚刚',
 				postSource: '微博 weibo.com'
