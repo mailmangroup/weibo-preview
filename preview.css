@@ -7,6 +7,7 @@
 }
 
 .preview-container {
+	min-width: 320px;
 	max-width: 414px;
 	max-height: 736px;
 	background: #F2F2F2;
@@ -400,7 +401,7 @@
 
 @media screen and ( max-width: 414px ) {
 
-	#preview-container {
+	.preview-container {
 		max-width: 375px;
 		max-height: 667px;
 	}
@@ -409,7 +410,7 @@
 
 @media screen and ( max-width: 375px ) {
 
-	#preview-container {
+	.preview-container {
 		max-width: 320px;
 		max-height: 568px;
 	}

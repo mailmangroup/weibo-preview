@@ -1,6 +1,6 @@
 {
   "name": "weibo-preview",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/weibo-preview.min.js",
   "ignore": [
     ".bowerrc",
