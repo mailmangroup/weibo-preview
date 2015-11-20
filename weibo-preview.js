@@ -21,34 +21,34 @@
 
 	// DECLARE ACCEPTED CONTAINER SIZES
 	var sizes = {
-		iphone4: { 
-			height: '480px', 
-			width: '320px' 
+		iphone4: {
+			height: '480px',
+			width: '320px'
 		},
-		iphone5: { 
-			height: '568px', 
-			width: '320px' 
+		iphone5: {
+			height: '568px',
+			width: '320px'
 		},
-		iphone6: { 
-			height: '667px', 
-			width: '375px' 
+		iphone6: {
+			height: '667px',
+			width: '375px'
 		},
-		iphone6plus: { 
-			height: '736px', 
-			width: '414px' 
+		iphone6plus: {
+			height: '736px',
+			width: '414px'
 		}
 	};
 
 	// EXTEND JAVASCRIPT OBJECT
 	function extend ( defaults, options ) {
-	    
-	    var extended = {};	    
+
+	    var extended = {};
 	    var prop;
-	   
-	    for (prop in defaults) {        
-	        if (Object.prototype.hasOwnProperty.call(defaults, prop)) extended[prop] = defaults[prop];    
+
+	    for (prop in defaults) {
+	        if (Object.prototype.hasOwnProperty.call(defaults, prop)) extended[prop] = defaults[prop];
 	    }
-	    
+
 	    for (prop in options) {
 	        if (Object.prototype.hasOwnProperty.call(options, prop)) extended[prop] = options[prop];
 	    }
@@ -67,11 +67,11 @@
 	};
 
 	// IF LENGTH OF INPUT IS 0 > REVERT TO DEFAULT
-	function testDefaults ( defaultValue, inputValue ) { 
+	function testDefaults ( defaultValue, inputValue ) {
 
 		if ( inputValue != null ) inputValue = inputValue.length === 0 ? defaultValue : inputValue;
 			else if ( inputValue === null ) inputValue = defaultValue;
-		
+
 		return inputValue;
 
 	}
@@ -112,8 +112,8 @@
 					// TODO: IF URL CONTAINS SINA > ADD CLASSNAME TO VIDEO TO STYLE DIFFERENTLY
 					// RETURN HTML ELEMENT
 					if ( url.match( /(http|https):\/\/(\w+:{0,1}\w*@)?((youku|pptv|sohu|tudou)+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi ) ) return '<a href="' + url + '" title="' + url + '"' + ' class="link preview-vlink preview-link" target="_blank">' + displayUrl + '</a>' + end;
-					else return link; 
-					
+					else return link;
+
 				// URL TOO SHORT › DO NOTHING
 				} else return url;
 
@@ -122,7 +122,7 @@
 			// PARSE A TEXT STRING AND CONVERT WEIBO MENTIONS '@' TO LINKS
 			string = string.replace( /@([^\s;\/\\():]+)/gi, function( matches, tag ) {
 
-				return '<a href="http://weibo.com/n/' + tag + '" class="link" target="_blank">@' + tag + '</a>'; 
+				return '<a href="http://weibo.com/n/' + tag + '" class="link" target="_blank">@' + tag + '</a>';
 
 			});
 
@@ -141,7 +141,7 @@
 	// PREVIEW CLASS CONSTRUCTOR
 	// ===============================================================================
 	function Preview ( options ) {
-		
+
 		// ENSURE THAT THE CLASS IS CALLED WITH THE `new` CONSTRUCTOR
 		if ( !( this instanceof Preview ) ) {
 			throw new TypeError( 'Preview constructor cannot be called as a function.' );
@@ -166,10 +166,10 @@
 				options.container.height = options.container.height + 'px';
 
 			}
-				
+
 			this.el.style.width = options.container.width;
 			this.el.style.height = options.container.height;
-				
+
 		}
 
 		// IF CONTAINER IS AN STRING > SET HEIGHT AND WIDTH ACCORDING TO WHITELIST SIZES
@@ -177,14 +177,14 @@
 		else if ( typeof options.container == 'string' ) {
 
 			for ( var prop in sizes ) {
-									
+
 				if ( sizes.hasOwnProperty( prop ) && prop == normalizeString( options.container ) ) {
 
 					this.el.style.width = sizes[ prop ].width;
 					this.el.style.height = sizes[ prop ].height;
 
 				}
-							
+
 			}
 
 		} else throw new TypeError( 'Container object contains invalid values' );
@@ -214,7 +214,7 @@
 
 			// SET CONTENT
 			// =========================================================================
-			
+
 			// IF CONTENT IS STRING > SET AS POST TEXT ON OBJECT
 			if ( typeof( content ) == 'string' ) content = { postText: content };
 
@@ -230,7 +230,7 @@
 
 			// IF NO PREVIOUS VALUES ARE SET > SET DEFAULTS > OVERRIDE WITH USER SET VALUES
 			if ( !this.previous ){
-				
+
 				var post = extend({
 						postText: defaults.postText,
 						accountName: defaults.accountName,
@@ -243,7 +243,7 @@
 					}, content );
 
 			} else {
-				
+
 				// IF PREVIOUS VALUES ARE SET > EXTEND TO POST
 				var post = extend( this.previous, content );
 
@@ -264,7 +264,7 @@
 
 				// APPEND HEADER TO POST WRAPPER
 				this.create( 'postHeader', 'div', 'post-header', this.postWrapper );
-				
+
 				// IF VERIFIED IS TRUE > SET CLASSNAME OF HEADER TO BE VERIFIED
 				if ( post.verified === true ) this.postHeader.className += ' verified';
 
@@ -291,7 +291,7 @@
 				this.create( 'postCommentsEl', 'div', 'post-comments', this.postEngagementEl );
 				this.create( 'postComments', 'span', null, this.postCommentsEl );
 				this.postComments.innerHTML = '评论';
-				
+
 				// CREATE POST LIKES
 				this.create( 'postLikesEl', 'div', 'post-likes', this.postEngagementEl );
 				this.create( 'postLikes', 'span', null, this.postLikesEl );
@@ -300,41 +300,41 @@
 			}
 
 			// CREATE ACCOUNT IMAGE
-			// =========================================================================	
+			// =========================================================================
 			if ( !this.accountImageEl ) this.create( 'accountImageEl', 'div', 'account-image', this.postHeader );
-			
+
 			// IF ACCOUNT IMAGE IS DEFINED > SET AS BACKGROUND IMAGE OF IMAGE WRAPPER
 			if ( post.accountImage && ( !this.previous || post.accountImage != this.previous.accountImage ) ) this.accountImageEl.style.backgroundImage = 'url(' + post.accountImage + ')';
-				
+
 			// CREATE ACCOUNT INFO
 			// =========================================================================
 			// IF ACCOUNT INFO ELEMENT DOESNT EXIST > CREATE AND APPEND TO HEADER
 			if ( !this.accountInfoEl ) this.create( 'accountInfoEl', 'div', 'account-info', this.postHeader );
-			
+
 			// CREATE ACCOUNT NAME
 			// =========================================================================
 
 			// IF ACCOUNT NAME ELEMENT DOESNT EXIST > CREATE AND APPEND TO ACCOUNT INFO ELEMENT
 			if ( !this.accountNameEl ) this.create( 'accountNameEl', 'span', 'account-name', this.accountInfoEl );
-			
+
 			// SET VALUE OF ACCOUNT NAME ELEMENT
 			if ( post.accountName && ( !this.previous || post.accountName != this.previous.accountName ) ) this.accountNameEl.innerHTML = post.accountName;
 
 			// CREATE POST META DATA
 			// =========================================================================
-					
+
 			// IF POST META DATA ELEMENT DOESNT EXIST > CREATE AND APPEND TO ACCOUNT INFO ELEMENT
 			if ( !this.postMetaDataEl ) this.create( 'postMetaDataEl', 'div', 'post-meta', this.accountInfoEl );
-			
+
 			// IF POST TIME ELEMENT DOESNT EXIST > CREATE AND APPEND TO POST META DATA ELEMENT
 			if ( !this.postTimeEl ) this.create( 'postTimeEl', 'span', null, this.postMetaDataEl );
-	
+
 			// SET VALUE OF POST TIME ELEMENT
 			if ( post.postTime && this.postTimeEl ) {
 
 				// FORMAT POST TIME
 				if ( !isNaN( parseInt( post.postTime ) ) ) {
-				
+
 					var date = new Date( parseInt( post.postTime ) ),
 						minutes = date.getMinutes(),
 						hours = date.getHours(),
@@ -359,13 +359,13 @@
 
 			// IF POST SOURCE ELEMENT DOESNT EXIST > CREATE AND APPEND TO POST META DATA ELEMENT
 			if ( !this.postSourceEl ) this.create( 'postSourceEl', 'span', null, this.postMetaDataEl );
-			
+
 			// SET VALUE OF POST SOURCE ELEMENT
 			if ( post.postSource && ( !this.previous || post.postSource != this.previous.postSource ) ) this.postSourceEl.innerHTML = '来自 ' + post.postSource;
 
 			// CREATE POST CONTENT
 			// =========================================================================
-			
+
 			// POST TEXT EXISTS
 			if ( !this.postTextEl ) this.create( 'postTextEl', 'p', null, this.postBody );
 
@@ -391,10 +391,10 @@
 				if ( post.postImages.length <= 9 && post.postImages.length != 0 ) {
 
 					for ( var imageNumber in post.postImages ) {
-							
+
 						// IF IMAGE ELEMENT AT THIS INDEX DOESNT EXIST > CREATE IMAGE ELEMENT
 						if ( !this[ 'imageEl' + imageNumber ] ) {
-							
+
 							this.create( 'imageEl' + imageNumber, 'div', 'post-image ' + 'post-image-' + ( parseInt( [ imageNumber ] ) + 1 ) );
 
 							// IF BACKGROUND IMAGE FOR IMAGE ELEMENT IS NOT YET SET > SET THE BACKGROUND
@@ -411,9 +411,9 @@
 					}
 
 				}
-				
+
 				// IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS > REMOVE IMAGE LIST
-				if ( post.postImages.length == 0 && this.postImageListEl ) this.postBody.removeChild( this.postImageListEl );
+				if ( post.postImages.length == 0 && this.postImageListEl && this.postImageListEl.parentNode ) this.postImageListEl.parentNode.removeChild( this.postImageListEl );
 
 				// IF THERE ARE LESS IMAGES THAN LAST CALL > REMOVE ECCESS IMAGES
 				if ( this.previous && this.previous.postImages.length > post.postImages.length ) {
@@ -423,7 +423,7 @@
 						if ( imageNumber >= post.postImages.length ) this.postImageListEl.removeChild( this[ 'imageEl' + imageNumber ] );
 
 					}
-					
+
 				}
 
 			}
@@ -436,11 +436,11 @@
 
 				var videoUrl = videoPreviewLink[ 0 ];
 				videoUrl = videoUrl.match( /<a\s+(?:[^>]*?\s+)?href="([^"]*)"/i )[ 1 ];
-			
+
 			}
 
 			// IF VIDEO URL IS STORED AND VIDEO LINK ELEMENT EXISTS > UPDATE VIDEO LINK ELEMENT HREF AND SET CLASSNAME OF POSTTEXT <P> TO HIDE VIDEO URL
-			if ( videoUrl && this.videoLinkEl ) { 
+			if ( videoUrl && this.videoLinkEl ) {
 
 				this.videoLinkEl.setAttribute( 'href', videoUrl );
 				this.postTextEl.className = 'vpreview';
@@ -449,7 +449,7 @@
 
 			// IF VIDEO LINK ELEMENT DOESNT EXIST AND THERE ARE NO IMAGES IN POST > CREATE VIDEO LINK ELEMENT AND APPEND TO POST BODY
 			if ( videoUrl && !this.videoLinkEl && ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody ) ) {
-				
+
 				this.videoLinkEl = document.createElement( 'a' );
 				this.videoLinkEl.setAttribute( 'target', '_blank' );
 				this.videoLinkEl.setAttribute( 'href', videoUrl );
@@ -464,8 +464,8 @@
 
 				this.postTextEl.className = '';
 				this.postBody.removeChild( this.videoLinkEl );
-				
-			} 
+
+			}
 
 			// IF VIDEO PREVIEW ELEMENT DOESNT EXIST > CREATE VIDEO PREVIEW ELEMENT
 			if ( !this.videoPreviewEl && this.videoLinkEl ) this.create( 'videoPreviewEl', 'div', 'video-preview', this.videoLinkEl );
@@ -488,7 +488,7 @@
 
 			// IF VIDEO TITLE ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO META DATA EL
 			if ( !this.videoTitle && this.videoMetaData ) {
-				
+
 				this.create( 'videoTitle', 'p', null, this.videoMetaData );
 				this.videoTitle.innerHTML = 'Video Title';
 
@@ -504,7 +504,7 @@
 
 			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
 			this.previous = post;
-			
+
 		}
 
 	};
