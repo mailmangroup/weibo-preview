@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.4
+ * Version: 1.0.5
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
