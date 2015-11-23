@@ -7,6 +7,7 @@
 }
 
 .preview-container {
+	min-width: 320px;
 	max-width: 414px;
 	max-height: 736px;
 	background: #F2F2F2;
@@ -70,7 +71,7 @@
 
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    -ms-flex-pack: center;    
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
@@ -246,12 +247,18 @@
 }
 
 .post-wrapper .post-image {
-	padding-bottom: 32.435%;
 	width: 32.435%;
-	margin: 1.355% 0 0 0;
+	margin: 0.355em 0 0 0;
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
+	display: block;
+}
+
+.post-wrapper .post-image:after {
+	content: '';
+	display: block;
+	margin-top: 100%;
 }
 
 .post-wrapper .image-layout-1 {
@@ -270,17 +277,15 @@
 
 .post-wrapper .image-layout-1 .post-image {
 	width: 100%;
-	padding-bottom: 100%;
 }
 
 .post-wrapper .image-layout-2 .post-image,
 .post-wrapper .image-layout-4 .post-image {
 	width: 48.979591836%;
-	padding-bottom: 48.979591836%;
 }
 
 .post-wrapper .image-layout-4 .post-image:nth-child( n+3 ) {
-	margin-top: 2.045%;
+	margin-top: 0.355em;
 }
 
 .post-wrapper .image-layout-5,
@@ -292,7 +297,7 @@
 
 .post-wrapper .image-layout-5 .post-image,
 .post-wrapper .image-layout-8 .post-image {
-	margin-right: 1.354%;
+	margin-right: 1.352%;
 }
 
 .post-wrapper .image-layout-5 .post-image:nth-child( 3n-3 ),
@@ -400,7 +405,7 @@
 
 @media screen and ( max-width: 414px ) {
 
-	#preview-container {
+	.preview-container {
 		max-width: 375px;
 		max-height: 667px;
 	}
@@ -409,7 +414,7 @@
 
 @media screen and ( max-width: 375px ) {
 
-	#preview-container {
+	.preview-container {
 		max-width: 320px;
 		max-height: 568px;
 	}
