@@ -71,7 +71,7 @@
 
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    -ms-flex-pack: center;    
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
@@ -293,7 +293,7 @@
 
 .post-wrapper .image-layout-5 .post-image,
 .post-wrapper .image-layout-8 .post-image {
-	margin-right: 1.354%;
+	margin-right: 1.352%;
 }
 
 .post-wrapper .image-layout-5 .post-image:nth-child( 3n-3 ),
