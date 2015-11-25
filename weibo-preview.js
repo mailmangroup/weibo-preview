@@ -83,7 +83,14 @@
 		// DO WE HAVE A STRING
 		if ( string ) {
 
-			string = string.replace( /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi, function(url, http, displayUrl) {
+			// WRAP ENGLISH WORDS IN SPAN FOR CHARACTER SPACING
+			string = string.replace( /(\w)+(?:[^\w#])([\w\s!:,.?+="'’;\)\(<>?'&%@!\-\/]+)?/gi, function( match ) {
+
+				return '<span class="preview-en">' + match + '</span>';
+
+			});
+
+			string = string.replace( /(http|https):\/\/(\w+:{0,1}\w*@)?(\S[^\s<]+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi, function(url, http, displayUrl) {
 
 				// URL LONGER THAN 10 CHARS › OK
 				if ( url.length > 10 ) {
@@ -127,7 +134,7 @@
 			});
 
 			// PARSE A TEXT STRING AND CONVERT WEIBO #HASHTAGS# TO LINKS
-			return string.replace( /#([^\s]+?)#/gi, function( matches, tag ) {
+			return string.replace( /#([^]+?)#/gi, function( matches, tag ) {
 
 				return '<a href="http://huati.weibo.com/k/' + tag + '" class="link" target="_blank">#' + tag + '#</a>';
 

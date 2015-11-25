@@ -3,7 +3,7 @@
 
 .preview-container p,
 .preview-container span {
-	font-family: PingFang-SC-Regular, Helvetica, sans-serif;
+	font-family: PingFang-SC-Regular, Helvetica Neue, Helvetica, sans-serif;
 }
 
 .preview-container {
@@ -13,7 +13,7 @@
 	background: #F2F2F2;
 	box-sizing: border-box;
 	overflow-y: scroll;
-	font-family: PingFang-SC-Regular, Helvetica, sans-serif;
+	font-family: PingFang-SC-Regular, Helvetica Neue, Helvetica, sans-serif;
 	text-align: left;
 	font-size: 100%;
 	font-weight: normal;
@@ -36,8 +36,15 @@
 	word-wrap: break-word;
 	line-height: 1.5rem;
     letter-spacing: 0.8px;
-	font-size: 1rem;
+	font-size: 1.065rem;
 	font-weight: 400;
+	margin-top: 0;
+	-webkit-font-smoothing: antialiased;
+}
+
+.post-wrapper .preview-en {
+	letter-spacing: 0;
+	word-break: break-word;
 }
 
 .post-wrapper a,
