@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.8
+ * Version: 1.0.9
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -377,7 +377,8 @@
 			if ( !this.postTextEl ) this.create( 'postTextEl', 'p', null, this.postBody );
 
 			// SET VALUE OF POST TEXT ELEMENT
-			if ( post.postText && ( !this.previous || parseString( post.postText ) != parseString( this.previous.postText ) ) ) this.postTextEl.innerHTML = parseString( post.postText );
+			if ( post.postText && post.postText.trim().length > 0 && ( !this.previous || parseString( post.postText ) != parseString( this.previous.postText ) ) ) this.postTextEl.innerHTML = parseString( post.postText );
+				else this.postTextEl.innerHTML = defaults.postText;
 
 
 			// CREATE POST IMAGES
