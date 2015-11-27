@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.9
+ * Version: 1.0.11
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -84,7 +84,7 @@
 		if ( string ) {
 
 			// WRAP ENGLISH WORDS IN SPAN FOR CHARACTER SPACING
-			string = string.replace( /(\w)+(?:[^\w#])([\w\s!:,.?+="'’;\)\(<>?'&%@!\-\/]+)?/gi, function( match ) {
+			string = string.replace( /([^@\w])(\w)+(?:[^\w#])([\w\s!:,.?+="'’;\)\(<>?'&%@!\-\/]+)?/gi, function( match ) {
 
 				return '<span class="preview-en">' + match + '</span>';
 
@@ -127,7 +127,7 @@
 			});
 
 			// PARSE A TEXT STRING AND CONVERT WEIBO MENTIONS '@' TO LINKS
-			string = string.replace( /@([^\s;\/\\():]+)/gi, function( matches, tag ) {
+			string = string.replace( /@([^\s<;\/\\():]+)/gi, function( matches, tag ) {
 
 				return '<a href="http://weibo.com/n/' + tag + '" class="link" target="_blank">@' + tag + '</a>';
 
@@ -377,8 +377,10 @@
 			if ( !this.postTextEl ) this.create( 'postTextEl', 'p', null, this.postBody );
 
 			// SET VALUE OF POST TEXT ELEMENT
-			if ( post.postText && post.postText.trim().length > 0 && ( !this.previous || parseString( post.postText ) != parseString( this.previous.postText ) ) ) this.postTextEl.innerHTML = parseString( post.postText );
-				else this.postTextEl.innerHTML = defaults.postText;
+			if ( post.postText && ( !this.previous || parseString( post.postText ) != parseString( this.previous.postText ) ) ) this.postTextEl.innerHTML = parseString( post.postText );
+
+			// IF VALUE PROVIDED WAS ONLY WHITESPACE › REVERT TO DEFAULT
+			if ( post.postText.trim().length == 0 ) this.postTextEl.innerHTML = defaults.postText;
 
 
 			// CREATE POST IMAGES
