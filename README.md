@@ -1,5 +1,5 @@
 # Weibo Preview
-[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.12-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.13-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 To provide a better service of publishing through our platform, we wanted a way for users to see a live preview of how their post will look within Weibo.
 
