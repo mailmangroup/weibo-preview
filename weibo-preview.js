@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.13
+ * Version: 1.0.14
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -246,7 +246,8 @@
 						postSource: defaults.postSource,
 						postImages: [],
 						originalPost: null,
-						verified: false
+						verified: false,
+						featuredHashtag: false
 					}, content );
 
 			} else {
@@ -450,67 +451,79 @@
 			}
 
 			// IF VIDEO URL IS STORED AND VIDEO LINK ELEMENT EXISTS > UPDATE VIDEO LINK ELEMENT HREF AND SET CLASSNAME OF POSTTEXT <P> TO HIDE VIDEO URL
-			if ( videoUrl && this.videoLinkEl ) {
+			if ( videoUrl && this.mediaLinkEl ) {
 
-				this.videoLinkEl.setAttribute( 'href', videoUrl );
+				this.mediaLinkEl.setAttribute( 'href', videoUrl );
 				this.postTextEl.className = 'vpreview';
 
 			} else this.postTextEl.className = '';
 
 			// IF VIDEO LINK ELEMENT DOESNT EXIST AND THERE ARE NO IMAGES IN POST > CREATE VIDEO LINK ELEMENT AND APPEND TO POST BODY
-			if ( videoUrl && !this.videoLinkEl && ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody ) ) {
+			if ( ( videoUrl || post.featuredHashtag ) && !this.mediaLinkEl && ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody ) ) {
 
-				this.videoLinkEl = document.createElement( 'a' );
-				this.videoLinkEl.setAttribute( 'target', '_blank' );
-				this.videoLinkEl.setAttribute( 'href', videoUrl );
+				this.mediaLinkEl = document.createElement( 'a' );
+				this.mediaLinkEl.setAttribute( 'target', '_blank' );
 
 			}
 
-			// IF VIDEO LINK ELEMENT EXISTS AND ISNT APPENDED TO POST BODY > APPEND TO POST BODY
-			else if ( this.videoLinkEl && this.videoLinkEl.parentNode != this.postBody ) this.postBody.appendChild( this.videoLinkEl );
+			// IF VIDEO URL IS SET › ADD HREF TO
+			if ( videoUrl && this.mediaLinkEl ) this.mediaLinkEl.setAttribute( 'href', videoUrl );
+
+			// IF FEATURE HASHTAG IS SET › SET THE URL ACCORDING TO THE HASHTAG
+			if ( !videoUrl && post.featuredHashtag && post.featuredHashtag.hashtag ) {
+
+				this.mediaLinkEl.setAttribute( 'href', 'http://huati.weibo.com/k/' + post.featuredHashtag.hashtag );
+				this.mediaLinkEl.classList.add( 'featured-hashtag' );
+
+			}
+
+			// IF MEDIA LINK ELEMENT EXISTS AND ISNT APPENDED TO POST BODY > APPEND TO POST BODY
+			if ( this.mediaLinkEl && !this.mediaLinkEl.parentNode ) this.postBody.appendChild( this.mediaLinkEl );
 
 			// IF POST TEXT DOESNT HAVE VIDEO <A> AND VIDEO LINK ELEMENT EXISTS > REMOVE THE VIDEO LINK ELEMENT
-			if ( ( !videoUrl && this.videoLinkEl && this.videoLinkEl.parentNode == this.postBody ) || this.videoLinkEl && post.postImages.length > 0 ) {
+			if ( ( !videoUrl && !post.featuredHashtag && this.mediaLinkEl && this.mediaLinkEl.parentNode == this.postBody ) || this.mediaLinkEl && post.postImages.length > 0 ) {
 
 				this.postTextEl.className = '';
-				this.postBody.removeChild( this.videoLinkEl );
+				this.postBody.removeChild( this.mediaLinkEl );
 
 			}
 
 			// IF VIDEO PREVIEW ELEMENT DOESNT EXIST > CREATE VIDEO PREVIEW ELEMENT
-			if ( !this.videoPreviewEl && this.videoLinkEl ) this.create( 'videoPreviewEl', 'div', 'video-preview', this.videoLinkEl );
+			if ( !this.mediaPreviewEl && this.mediaLinkEl ) this.create( 'mediaPreviewEl', 'div', 'media-preview', this.mediaLinkEl );
 
 			// IF VIDEO IMAGE ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO PREVIEW EL
-			if ( !this.videoImageEl && this.videoPreviewEl ) this.create( 'videoImageEl', 'div', 'video-preview-image', this.videoPreviewEl );
+			if ( !this.mediaImageEl && this.mediaPreviewEl ) this.create( 'mediaImageEl', 'div', 'media-preview-image', this.mediaPreviewEl );
 
 			// IF VIDEO IMAGE ELEMENT EXISTS AND DOESNT HAVE CLASSNAME OF MATCHED VIDEO > SET CLASSNAME ACCORDING TO MATCHED VIDEO
-			if ( this.videoImageEl ) {
+			if ( this.mediaImageEl ) {
 
-				var videoClass = this.videoImageEl.className,
+				var videoClass = this.mediaImageEl.className,
 					exp = /(\w+:{0,1}\w*@)?((youku|pptv|sohu|tudou)+)/gi;
 
-				if ( videoClass && videoUrl && videoClass.indexOf( videoUrl.match( exp ) ) == -1 ) this.videoImageEl.className = 'video-preview-image ' + videoUrl.match( exp );
+				if ( videoClass && videoUrl && videoClass.indexOf( videoUrl.match( exp ) ) == -1 ) this.mediaImageEl.className = 'media-preview-image ' + videoUrl.match( exp );
+
+				else if ( !videoUrl && post.featuredHashtag && post.featuredHashtag.hashtagImage ) this.mediaImageEl.style.backgroundImage = 'url(\'' + post.featuredHashtag.hashtagImage + '\')';
+
+				else if ( videoUrl ) this.mediaImageEl.style.backgroundImage = '';
 
 			}
 
 			// IF VIDEO META DATA ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO PREVIEW ELEMENT
-			if ( !this.videoMetaData && this.videoPreviewEl ) this.create( 'videoMetaData', 'div', 'video-meta', this.videoPreviewEl );
+			if ( !this.mediaMetaData && this.mediaPreviewEl ) this.create( 'mediaMetaData', 'div', 'media-meta', this.mediaPreviewEl );
 
 			// IF VIDEO TITLE ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO META DATA EL
-			if ( !this.videoTitle && this.videoMetaData ) {
+			if ( !this.mediaTitle && this.mediaMetaData ) this.create( 'mediaTitle', 'p', null, this.mediaMetaData );
 
-				this.create( 'videoTitle', 'p', null, this.videoMetaData );
-				this.videoTitle.innerHTML = 'Video Title';
-
-			}
+			// SET TEXT CONTENT OF MEDIA TITLE
+			if ( videoUrl ) this.mediaTitle.innerHTML = 'Video Title';
+				else if ( post.featuredHashtag.hashtag ) this.mediaTitle.innerHTML = '#' + post.featuredHashtag.hashtag + '#';
 
 			// IF VIDEO DESCRIPTION ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO META DATA EL
-			if ( !this.videoDescription && this.videoMetaData ) {
+			if ( !this.mediaDescription && this.mediaMetaData ) this.create( 'mediaDescription', 'span', null, this.mediaMetaData );
 
-				this.create( 'videoDescription', 'span', null, this.videoMetaData );
-				this.videoDescription.innerHTML = 'Lorem ipsum dolor sit amet sit galor.'
-
-			}
+			// SET TEXT CONTENT OF MEDIA DESCRIPTION
+			if ( videoUrl ) this.mediaDescription.innerHTML = 'Lorem ipsum dolor sit amet sit galor.';
+				else if ( post.featuredHashtag.hashtagDescription ) this.mediaDescription.innerHTML = post.featuredHashtag.hashtagDescription;
 
 			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
 			this.previous = post;
