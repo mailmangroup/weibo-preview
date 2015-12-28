@@ -37,7 +37,7 @@
 	word-break: break-all;
 	word-wrap: break-word;
 	line-height: 1.5rem;
-    letter-spacing: 0.8px;
+	letter-spacing: 0.8px;
 	font-size: 1.065rem;
 	font-weight: 400;
 	margin-top: 0;
@@ -59,10 +59,10 @@
  * ------------------------------------------------------------------------- */
 
 .post-wrapper .post-header,
-.post-wrapper .video-preview,
+.post-wrapper .media-preview,
 .post-wrapper .post-images,
 .post-wrapper .account-info,
-.post-wrapper .video-meta,
+.post-wrapper .media-meta,
 .post-wrapper .post-image,
 .post-wrapper .post-engagement {
 	display: -webkit-box;
@@ -72,7 +72,7 @@
 }
 
 .post-wrapper .account-info,
-.post-wrapper .video-meta,
+.post-wrapper .media-meta,
 .post-wrapper .post-image {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
@@ -97,6 +97,7 @@
 	background-repeat: no-repeat;
 	position: relative;
 	background-image: url( './images/profile.png' );
+	border-radius: 50%;
 }
 
 .post-wrapper .account-image:before {
@@ -112,6 +113,7 @@
     transform: scale(0.5);
     -webkit-transform-origin: left top;
     transform-origin: left top;
+    border-radius: 50%;
 }
 
 .post-wrapper .verified .account-image:after {
@@ -123,8 +125,8 @@
 	display: block;
 	background-size: cover;
 	background-repeat: no-repeat;
-	bottom: -4px;
-	right: -5px;
+	bottom: 0px;
+	right: 0px;
 
 }
 
@@ -160,16 +162,16 @@
 	padding: 0.25rem 0.75rem 0.625rem;
 }
 
-/* VIDEO PREVIEW
+/* MEDIA PREVIEW
  * ------------------------------------------------------------------------- */
 
-.post-wrapper .video-preview {
+.post-wrapper .media-preview {
 	margin-top: 7px;
 	background: #F7F7F7;
 	height: 4.375rem;
 }
 
-.post-wrapper .video-preview-image {
+.post-wrapper .media-preview-image {
 	min-width: 4.375rem;
 	background: #666;
 	background-repeat: no-repeat;
@@ -195,7 +197,7 @@
 	background-image: url( './images/sohu.jpg' );
 }
 
-.post-wrapper .video-meta {
+.post-wrapper .media-meta {
     padding: .5rem .6875rem;
 	padding: .3125rem 0 0 .6875rem;
 	line-height: 1rem;
@@ -203,18 +205,19 @@
 	overflow: hidden;
 }
 
-.post-wrapper .video-meta p {
+.post-wrapper .media-meta p {
 	font-size: .875rem;
-	margin: 0;
+	margin: -5px 0 0px 0px;
 }
 
-.post-wrapper .video-meta span {
+.post-wrapper .media-meta span {
 	font-size: .8125rem;
 	color: #666;
 	overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
     white-space: nowrap;
+    padding-right: 10px;
 }
 
 .post-wrapper .preview-link:before {
