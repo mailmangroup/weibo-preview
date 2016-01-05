@@ -8,7 +8,7 @@
     ".gitattributes",
     ".git/*",
     "example/*",
-    "node_modules"
+    "node_modules",
     "index.html",
     "*.json",
     "gulpfile.js"
