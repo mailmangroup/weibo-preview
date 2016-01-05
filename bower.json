@@ -9,6 +9,7 @@
     ".git/*",
     "example/*",
     "index.html",
-    "bower.json"
+    "bower.json",
+    "emoji.json"
   ]
 }
