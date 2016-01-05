@@ -555,14 +555,14 @@
 			if ( !this.mediaTitle && this.mediaMetaData ) this.create( 'mediaTitle', 'p', null, this.mediaMetaData );
 
 			// SET TEXT CONTENT OF MEDIA TITLE
-			if ( videoUrl ) this.mediaTitle.innerHTML = 'Video Title';
+			if ( videoUrl && this.mediaTitle ) this.mediaTitle.innerHTML = 'Video Title';
 				else if ( post.featuredHashtag.hashtag ) this.mediaTitle.innerHTML = '#' + post.featuredHashtag.hashtag + '#';
 
 			// IF VIDEO DESCRIPTION ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO META DATA EL
 			if ( !this.mediaDescription && this.mediaMetaData ) this.create( 'mediaDescription', 'span', null, this.mediaMetaData );
 
 			// SET TEXT CONTENT OF MEDIA DESCRIPTION
-			if ( videoUrl ) this.mediaDescription.innerHTML = 'Lorem ipsum dolor sit amet sit galor.';
+			if ( videoUrl && this.mediaDescription ) this.mediaDescription.innerHTML = 'Lorem ipsum dolor sit amet sit galor.';
 				else if ( post.featuredHashtag.hashtagDescription ) this.mediaDescription.innerHTML = post.featuredHashtag.hashtagDescription;
 
 			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
