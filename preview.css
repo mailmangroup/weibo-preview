@@ -34,7 +34,7 @@
 	color: #333;
 	margin: 0.21878rem 0;
 	padding: 0;
-	word-break: break-all;
+	word-break: break-word;
 	word-wrap: break-word;
 	line-height: 1.5rem;
 	letter-spacing: 0.8px;
@@ -409,6 +409,21 @@
 	right: 0;
 	background-image: linear-gradient(to right, #e6e6e6 0%, #e6e6e6 51%, transparent 51%);
     background-size: 100% 1px;
+}
+
+/* EMOJI
+ * ------------------------------------------------------------------------- */
+.wp-emoji {
+    overflow: hidden;
+    text-indent: -300px;
+    float: none;
+    display: inline-block;
+    margin: 0 2px;
+    width: 22px;
+    height: 22px;
+    vertical-align: top;
+    -webkit-background-size: 100% auto;
+    background-size: 100% auto;
 }
 
 /* RESPONSIVE
