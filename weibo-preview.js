@@ -85,13 +85,6 @@
 		// DO WE HAVE A STRING
 		if ( string ) {
 
-			// WRAP ENGLISH WORDS IN SPAN FOR CHARACTER SPACING
-			string = string.replace( /([^@#\w\/\+\?\[\]_-])(\w)+(?:[^\w#\[\/])+([\w!:,.?+="'’;\)\(<>?'&%@!-\/])+/gi, function( match ) {
-
-				return '<span class="preview-en">' + match + '</span>';
-
-			});
-
 			string = string.replace( /(http|https):\/\/(\w+:{0,1}\w*@)?(\S[^\s<]+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi, function(url, http, displayUrl) {
 
 				// URL LONGER THAN 10 CHARS › OK
@@ -142,7 +135,7 @@
 
 							// IF REGEX MATCHES WEIBO SHORTCODE › RETURN BACKGROUND IMAGE ICON
 							if ( matches === emoji[ i ].sweibo[ x ] )
-								return '<i class="wp-emoji wp-emoji-' + emoji[ i ].icon + '" style="background-image:url(' + emoji[ i ].sprite + ');background-position:50% ' + ( -22 * ( emoji[ i ].icon - 1 ) ) + 'px;">' + matches + '</i>';
+								return '<i class="wp-emoji wp-emoji-' + emoji[ i ].icon + '" style="background-image:url(' + emoji[ i ].sprite + ');background-position:50% ' + ( -20 * ( emoji[ i ].icon - 1 ) ) + 'px;">' + matches + '</i>';
 
 						}
 
@@ -153,7 +146,7 @@
 
 						// IF THE EMOJI HAS AN ICON AND SPRITE PROPERTY › DISPLAY AS WEIBO EMOJI
 						if ( emoji[ i ].icon && emoji[ i ].sprite )
-							return '<i class="wp-emoji wp-emoji-' + emoji[ i ].icon + '" style="background-image:url(' + emoji[ i ].sprite + ');background-position:50% ' + ( -22 * ( emoji[ i ].icon - 1 ) ) + 'px;">' + matches + '</i>';
+							return '<i class="wp-emoji wp-emoji-' + emoji[ i ].icon + '" style="background-image:url(' + emoji[ i ].sprite + ');background-position:50% ' + ( -20 * ( emoji[ i ].icon - 1 ) ) + 'px;">' + matches + '</i>';
 
 						// ELSE IF EMOJI URL IS SET › FALL BACK TO KAWO EMOJI
 						else if ( emoji[ i ].url ) return '<img src="' + emoji[ i ].url + '" class="wp-emoji">';
