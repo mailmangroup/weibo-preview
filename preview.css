@@ -232,8 +232,12 @@
 	background-image: url( './images/video.png' );
 }
 
-.post-wrapper .vpreview .preview-vlink:first-of-type {
+.post-wrapper .vpreview .preview-vlink {
 	display: none;
+}
+
+.post-wrapper .vpreview .preview-vlink ~ .preview-vlink {
+	display: inline-block;
 }
 
 /* POST IMAGES
@@ -419,6 +423,22 @@
     vertical-align: top;
     -webkit-background-size: 100% auto;
     background-size: 100% auto;
+}
+
+/* REPOST
+ * ------------------------------------------------------------------------- */
+.reposted-content {
+	background-color: #F7F7F7;
+	margin-top: -0.625rem;
+	padding: 0.25rem 0.75rem 0.625rem;
+}
+
+.reposted-content p {
+	color: #636363;
+}
+
+.reposted-content .media-preview {
+	background-color: #FFF;
 }
 
 /* RESPONSIVE

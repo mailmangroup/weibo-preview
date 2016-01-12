@@ -342,33 +342,40 @@
 
 			// CREATE ACCOUNT IMAGE
 			// =========================================================================
-			if ( !this.accountImageEl ) this.create( 'accountImageEl', 'div', 'account-image', this.postHeader );
+			if ( !this.accountImageEl )
+				this.create( 'accountImageEl', 'div', 'account-image', this.postHeader );
 
 			// IF ACCOUNT IMAGE IS DEFINED > SET AS BACKGROUND IMAGE OF IMAGE WRAPPER
-			if ( post.accountImage && ( !this.previous || post.accountImage != this.previous.accountImage ) ) this.accountImageEl.style.backgroundImage = 'url(' + post.accountImage + ')';
+			if ( post.accountImage && ( !this.previous || post.accountImage != this.previous.accountImage ) )
+				this.accountImageEl.style.backgroundImage = 'url(' + post.accountImage + ')';
 
 			// CREATE ACCOUNT INFO
 			// =========================================================================
 			// IF ACCOUNT INFO ELEMENT DOESNT EXIST > CREATE AND APPEND TO HEADER
-			if ( !this.accountInfoEl ) this.create( 'accountInfoEl', 'div', 'account-info', this.postHeader );
+			if ( !this.accountInfoEl )
+				this.create( 'accountInfoEl', 'div', 'account-info', this.postHeader );
 
 			// CREATE ACCOUNT NAME
 			// =========================================================================
 
 			// IF ACCOUNT NAME ELEMENT DOESNT EXIST > CREATE AND APPEND TO ACCOUNT INFO ELEMENT
-			if ( !this.accountNameEl ) this.create( 'accountNameEl', 'span', 'account-name', this.accountInfoEl );
+			if ( !this.accountNameEl )
+				this.create( 'accountNameEl', 'span', 'account-name', this.accountInfoEl );
 
 			// SET VALUE OF ACCOUNT NAME ELEMENT
-			if ( post.accountName && ( !this.previous || post.accountName != this.previous.accountName ) ) this.accountNameEl.innerHTML = post.accountName;
+			if ( post.accountName && ( !this.previous || post.accountName != this.previous.accountName ) )
+				this.accountNameEl.innerHTML = post.accountName;
 
 			// CREATE POST META DATA
 			// =========================================================================
 
 			// IF POST META DATA ELEMENT DOESNT EXIST > CREATE AND APPEND TO ACCOUNT INFO ELEMENT
-			if ( !this.postMetaDataEl ) this.create( 'postMetaDataEl', 'div', 'post-meta', this.accountInfoEl );
+			if ( !this.postMetaDataEl )
+				this.create( 'postMetaDataEl', 'div', 'post-meta', this.accountInfoEl );
 
 			// IF POST TIME ELEMENT DOESNT EXIST > CREATE AND APPEND TO POST META DATA ELEMENT
-			if ( !this.postTimeEl ) this.create( 'postTimeEl', 'span', null, this.postMetaDataEl );
+			if ( !this.postTimeEl )
+				this.create( 'postTimeEl', 'span', null, this.postMetaDataEl );
 
 			// SET VALUE OF POST TIME ELEMENT
 			if ( post.postTime && this.postTimeEl ) {
@@ -402,80 +409,92 @@
 			if ( !this.postSourceEl ) this.create( 'postSourceEl', 'span', null, this.postMetaDataEl );
 
 			// SET VALUE OF POST SOURCE ELEMENT
-			if ( post.postSource && ( !this.previous || post.postSource != this.previous.postSource ) ) this.postSourceEl.innerHTML = '来自 ' + post.postSource;
+			if ( post.postSource && ( !this.previous || post.postSource != this.previous.postSource ) )
+				this.postSourceEl.innerHTML = '来自 ' + post.postSource;
 
 			// CREATE POST CONTENT
 			// =========================================================================
 
 			// POST TEXT EXISTS
-			if ( !this.postTextEl ) this.create( 'postTextEl', 'p', null, this.postBody );
+			if ( !this.postTextEl )
+				this.create( 'postTextEl', 'p', null, this.postBody );
 
 			// SET VALUE OF POST TEXT ELEMENT
-			if ( post.postText && ( !this.previous || parseString( post.postText ) != parseString( this.previous.postText ) ) ) this.postTextEl.innerHTML = parseString( post.postText );
+			if ( post.postText && ( !this.previous || parseString( post.postText ) != parseString( this.previous.postText ) ) )
+				this.postTextEl.innerHTML = parseString( post.postText );
 
 			// IF VALUE PROVIDED WAS ONLY WHITESPACE › REVERT TO DEFAULT
-			if ( post.postText.trim().length == 0 ) this.postTextEl.innerHTML = defaults.postText;
+			if ( post.postText.trim().length == 0 )
+				this.postTextEl.innerHTML = defaults.postText;
 
-
-			// CREATE POST IMAGES
+			// IF POST IMAGE LENGTH IS GREATER THAN 0 AND NOT A REPOST › SET IMAGES TO POST BODY
 			// =========================================================================
-			if ( !this.postImageListEl && post.postImages.length > 0 && typeof post.postImages == 'object' ) this.create( 'postImageListEl', 'div' );
-				else if ( typeof post.postImages != 'object' ) throw new TypeError( 'Error: postImages expects an Array, ' + typeof post.postImages + ' was given.' );
-				// TODO: HAVE THIS CALL ON UPDATE INSTEAD OF JUST FIRST TIME
+			if ( post.postImages.length > 0 && !post.originalPost && ( !this.mediaLinkEl || !this.mediaLinkEl.parentNode ) )
+				this.setImages( post, this.postBody );
 
-			// IF IMAGE LIST EXISTS BUT HASNT BEEN APPENDED TO BODY > APPEND TO BODY
-			if ( this.postImageListEl && this.postImageListEl.parentNode != this.postBody && post.postImages.length > 0 ) this.postBody.appendChild( this.postImageListEl );
+			// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS > REMOVE IMAGE LIST
+			else if ( post.postImages.length == 0 && this.postImageListEl && this.postImageListEl.parentNode )
+				this.postImageListEl.parentNode.removeChild( this.postImageListEl );
 
-			if ( this.postImageListEl ) this.postImageListEl.className = 'post-images image-layout-' + post.postImages.length;
+			// IF NO REPOSTED CONTENT AND M › SET MEDIA CONTENT TO POST BODY
+			if ( !post.originalPost && ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody ) )
+					this.setMedia( post, this.postBody, this.postTextEl );
 
-			// IF POST IMAGES IS DEFINED AND DOESNT EQUAL PREVIOUS IMAGES
-			if ( post.postImages && ( !this.previous || post.postImages != this.previous.postImages ) ) {
+			// CREATE REPOST
+			// =========================================================================
+			if ( post.originalPost ) {
 
-				// ONLY CREATE IMAGES IF ARRAY LENGTH IS NOT GREATER THAN MAXIMUM AMOUNT OF IMAGES ALLOWED IN WEIBO
-				if ( post.postImages.length <= 9 && post.postImages.length != 0 ) {
+				var repost = post.originalPost;
 
-					for ( var imageNumber in post.postImages ) {
-
-						// IF IMAGE ELEMENT AT THIS INDEX DOESNT EXIST > CREATE IMAGE ELEMENT
-						if ( !this[ 'imageEl' + imageNumber ] ) {
-
-							this.create( 'imageEl' + imageNumber, 'div', 'post-image ' + 'post-image-' + ( parseInt( [ imageNumber ] ) + 1 ) );
-
-							// IF BACKGROUND IMAGE FOR IMAGE ELEMENT IS NOT YET SET > SET THE BACKGROUND
-							if ( !this.previous ) this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + post.postImages[ imageNumber ] + ')';
-
-						}
-
-						// IF THE IMAGE FOR THIS EXISTS BUT IS NOT APPENDED > APPEND TO THE IMAGE LIST WRAPPER
-						if ( this[ 'imageEl' + imageNumber ] && this[ 'imageEl' + imageNumber ].parentNode != this.postImageListEl ) this.postImageListEl.appendChild( this[ 'imageEl' + imageNumber ] );
-
-						// IF VALUE OF IMAGES HAS CHANGED > UPDATE THE BACKGROUND IMAGE OF CHANGED IMAGES
-						if ( this.previous && this.previous.postImages[ imageNumber ] != post.postImages[ imageNumber ] ) this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + post.postImages[ imageNumber ] + ')';
-
-					}
-
+				// CREATE REPOST ELEMENT
+				if ( !this.repostEl ) {
+					this.repostEl = document.createElement( 'div' );
+					this.repostEl.className = 'reposted-content';
 				}
 
-				// IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS > REMOVE IMAGE LIST
-				if ( post.postImages.length == 0 && this.postImageListEl && this.postImageListEl.parentNode ) this.postImageListEl.parentNode.removeChild( this.postImageListEl );
+				// APPEND REPOST ELEMENT
+				if ( this.repostEl && !this.repostEl.parentNode )
+					this.postWrapper.insertBefore( this.repostEl, this.postEngagementEl );
 
-				// IF THERE ARE LESS IMAGES THAN LAST CALL > REMOVE ECCESS IMAGES
-				if ( this.previous && this.previous.postImages.length > post.postImages.length ) {
+				// POST TEXT EXISTS
+				if ( !this.repostedTextEl )
+					this.create( 'repostedTextEl', 'p', null, this.repostEl );
 
-					for ( var imageNumber in this.previous.postImages ) {
+				// IF NO ACCOUNT NAME › SET DEFAULT ACCOUNT NAME
+				if ( !repost.accountName )
+					repost.accountName = '账户名称';
 
-						if ( imageNumber >= post.postImages.length ) this.postImageListEl.removeChild( this[ 'imageEl' + imageNumber ] );
+				// SET REPOST ACCOUNT NAME TO VARIABLE WITH HREF
+				var accountNameLink = '<a target="_blank" href="http://weibo.com/n/' + repost.accountName + '">' + repost.accountName + '</a>';
 
-					}
+				// SET VALUE OF POST TEXT ELEMENT
+				if ( repost.postText && ( !this.previous || parseString( repost.postText ) != parseString( this.previous.originalPost.postText ) ) )
+					this.repostedTextEl.innerHTML = accountNameLink + ':' + parseString( repost.postText );
 
-				}
+				// IF POST IMAGE LENGTH IS GREATER THAN 0 AND NOT A REPOST › SET IMAGES TO POST BODY
+				// =========================================================================
+				if ( repost.postImages && repost.postImages.length > 0 )
+					this.setImages( post, this.repostEl );
+
+				// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS > REMOVE IMAGE LIST
+				else if ( repost.postImages && repost.postImages.length == 0 && this.postImageListEl && this.postImageListEl.parentNode )
+					this.postImageListEl.parentNode.removeChild( this.postImageListEl );
+
+				if ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody )
+					this.setMedia( post, this.repostEl, this.repostedTextEl );
 
 			}
 
+			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
+			this.previous = post;
+
+		},
+
+		setMedia: function ( options, targetParent, textElement ) {
+
 			// CREATE VIDEO PREVIEW
-			// =========================================================================
-			// IF VIDEO LINK EXISTS > STORE THE HREF OF THE FIRST VIDEO LINK
-			var videoPreviewLink = this.postTextEl.innerHTML.match( /<a[^>]*?.(class=[‘|"][a-zA-Z ^"’]*preview-vlink).*?">((?:.(?!\<\/a\>))*.)<\/a>/i );
+			// ========================================================================
+			var videoPreviewLink = textElement.innerHTML.match( /<a[^>]*?.(class=[‘|"][a-zA-Z ^"’]*preview-vlink).*?">((?:.(?!\<\/a\>))*.)<\/a>/i );
 			if ( videoPreviewLink ) {
 
 				var videoUrl = videoPreviewLink[ 0 ];
@@ -483,16 +502,8 @@
 
 			}
 
-			// IF VIDEO URL IS STORED AND VIDEO LINK ELEMENT EXISTS > UPDATE VIDEO LINK ELEMENT HREF AND SET CLASSNAME OF POSTTEXT <P> TO HIDE VIDEO URL
-			if ( videoUrl && this.mediaLinkEl ) {
-
-				this.mediaLinkEl.setAttribute( 'href', videoUrl );
-				this.postTextEl.className = 'vpreview';
-
-			} else this.postTextEl.className = '';
-
 			// IF VIDEO LINK ELEMENT DOESNT EXIST AND THERE ARE NO IMAGES IN POST > CREATE VIDEO LINK ELEMENT AND APPEND TO POST BODY
-			if ( ( videoUrl || post.featuredHashtag ) && !this.mediaLinkEl && ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody ) ) {
+			if ( ( videoUrl || options.featuredHashtag ) && !this.mediaLinkEl && ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody ) ) {
 
 				this.mediaLinkEl = document.createElement( 'a' );
 				this.mediaLinkEl.setAttribute( 'target', '_blank' );
@@ -500,26 +511,36 @@
 			}
 
 			// IF VIDEO URL IS SET › ADD HREF TO
-			if ( videoUrl && this.mediaLinkEl ) this.mediaLinkEl.setAttribute( 'href', videoUrl );
+			if ( videoUrl && this.mediaLinkEl )
+				this.mediaLinkEl.setAttribute( 'href', videoUrl );
 
 			// IF FEATURE HASHTAG IS SET › SET THE URL ACCORDING TO THE HASHTAG
-			if ( !videoUrl && post.featuredHashtag && post.featuredHashtag.hashtag ) {
+			if ( !videoUrl && options.featuredHashtag && options.featuredHashtag.hashtag ) {
 
-				this.mediaLinkEl.setAttribute( 'href', 'http://huati.weibo.com/k/' + post.featuredHashtag.hashtag );
+				this.mediaLinkEl.setAttribute( 'href', 'http://huati.weibo.com/k/' + options.featuredHashtag.hashtag );
 				this.mediaLinkEl.classList.add( 'featured-hashtag' );
 
 			}
 
 			// IF MEDIA LINK ELEMENT EXISTS AND ISNT APPENDED TO POST BODY > APPEND TO POST BODY
-			if ( this.mediaLinkEl && !this.mediaLinkEl.parentNode ) this.postBody.appendChild( this.mediaLinkEl );
+			if ( this.mediaLinkEl && !this.mediaLinkEl.parentNode )
+				targetParent.appendChild( this.mediaLinkEl );
 
-			// IF POST TEXT DOESNT HAVE VIDEO <A> AND VIDEO LINK ELEMENT EXISTS > REMOVE THE VIDEO LINK ELEMENT
-			if ( ( !videoUrl && !post.featuredHashtag && this.mediaLinkEl && this.mediaLinkEl.parentNode == this.postBody ) || this.mediaLinkEl && post.postImages.length > 0 ) {
+			// IF › POST TEXT DOESNT HAVE VIDEO <A> AND VIDEO LINK ELEMENT EXISTS > REMOVE THE VIDEO LINK ELEMENT
+			if ( ( !videoUrl && !options.featuredHashtag && this.mediaLinkEl && this.mediaLinkEl.parentNode == targetParent ) || this.mediaLinkEl && ( options.originalPost && options.originalPost.postImages )  ) {
 
 				this.postTextEl.className = '';
-				this.postBody.removeChild( this.mediaLinkEl );
+				targetParent.removeChild( this.mediaLinkEl );
 
 			}
+
+			// IF VIDEO URL IS STORED AND VIDEO LINK ELEMENT EXISTS > UPDATE VIDEO LINK ELEMENT HREF AND SET CLASSNAME OF POSTTEXT <P> TO HIDE VIDEO URL
+			if ( videoUrl && this.mediaLinkEl && this.mediaLinkEl.parentNode ) {
+
+				this.mediaLinkEl.setAttribute( 'href', videoUrl );
+				textElement.className = 'vpreview';
+
+			} else textElement.className = '';
 
 			// IF VIDEO PREVIEW ELEMENT DOESNT EXIST > CREATE VIDEO PREVIEW ELEMENT
 			if ( !this.mediaPreviewEl && this.mediaLinkEl ) this.create( 'mediaPreviewEl', 'div', 'media-preview', this.mediaLinkEl );
@@ -533,9 +554,11 @@
 				var videoClass = this.mediaImageEl.className,
 					exp = /(\w+:{0,1}\w*@)?((youku|pptv|sohu|tudou)+)/gi;
 
-				if ( videoClass && videoUrl && videoClass.indexOf( videoUrl.match( exp ) ) == -1 ) this.mediaImageEl.className = 'media-preview-image ' + videoUrl.match( exp );
+				if ( videoClass && videoUrl && videoClass.indexOf( videoUrl.match( exp ) ) == -1 )
+					this.mediaImageEl.className = 'media-preview-image ' + videoUrl.match( exp );
 
-				else if ( !videoUrl && post.featuredHashtag && post.featuredHashtag.hashtagImage ) this.mediaImageEl.style.backgroundImage = 'url(\'' + post.featuredHashtag.hashtagImage + '\')';
+				else if ( !videoUrl && options.featuredHashtag && options.featuredHashtag.hashtagImage )
+					this.mediaImageEl.style.backgroundImage = 'url(\'' + options.featuredHashtag.hashtagImage + '\')';
 
 				else if ( videoUrl ) this.mediaImageEl.style.backgroundImage = '';
 
@@ -549,17 +572,82 @@
 
 			// SET TEXT CONTENT OF MEDIA TITLE
 			if ( videoUrl && this.mediaTitle ) this.mediaTitle.innerHTML = 'Video Title';
-				else if ( post.featuredHashtag.hashtag ) this.mediaTitle.innerHTML = '#' + post.featuredHashtag.hashtag + '#';
+				else if ( options.featuredHashtag.hashtag ) this.mediaTitle.innerHTML = '#' + options.featuredHashtag.hashtag + '#';
 
 			// IF VIDEO DESCRIPTION ELEMENT DOESNT EXIST > CREATE AND APPEND TO VIDEO META DATA EL
 			if ( !this.mediaDescription && this.mediaMetaData ) this.create( 'mediaDescription', 'span', null, this.mediaMetaData );
 
 			// SET TEXT CONTENT OF MEDIA DESCRIPTION
 			if ( videoUrl && this.mediaDescription ) this.mediaDescription.innerHTML = 'Lorem ipsum dolor sit amet sit galor.';
-				else if ( post.featuredHashtag.hashtagDescription ) this.mediaDescription.innerHTML = post.featuredHashtag.hashtagDescription;
+				else if ( options.featuredHashtag.hashtagDescription ) this.mediaDescription.innerHTML = options.featuredHashtag.hashtagDescription;
 
-			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
-			this.previous = post;
+			return this;
+
+		},
+
+		setImages: function( options, targetParent ) {
+
+			// CREATE POST IMAGES
+			// =========================================================================
+			if ( !this.postImageListEl && options.postImages.length > 0 && typeof options.postImages == 'object' )
+				this.create( 'postImageListEl', 'div' );
+
+			else if ( typeof options.postImages != 'object' )
+				throw new TypeError( 'Error: postImages expects an Array, ' + typeof options.postImages + ' was given.' );
+
+			// IF IMAGE LIST EXISTS BUT HASNT BEEN APPENDED TO BODY > APPEND TO BODY
+			if ( this.postImageListEl && this.postImageListEl.parentNode != this.postBody && options.postImages.length > 0 )
+				targetParent.appendChild( this.postImageListEl );
+
+			if ( this.postImageListEl )
+				this.postImageListEl.className = 'post-images image-layout-' + options.postImages.length;
+
+			// IF POST IMAGES IS DEFINED AND DOESNT EQUAL PREVIOUS IMAGES
+			if ( options.postImages && ( !this.previous || options.postImages != this.previous.postImages ) ) {
+
+				// ONLY CREATE IMAGES IF ARRAY LENGTH IS NOT GREATER THAN MAXIMUM AMOUNT OF IMAGES ALLOWED IN WEIBO
+				if ( options.postImages.length <= 9 && options.postImages.length != 0 ) {
+
+					for ( var imageNumber in options.postImages ) {
+
+						// IF IMAGE ELEMENT AT THIS INDEX DOESNT EXIST > CREATE IMAGE ELEMENT
+						if ( !this[ 'imageEl' + imageNumber ] ) {
+
+							this.create( 'imageEl' + imageNumber, 'div', 'post-image ' + 'post-image-' + ( parseInt( [ imageNumber ] ) + 1 ) );
+
+							// IF BACKGROUND IMAGE FOR IMAGE ELEMENT IS NOT YET SET > SET THE BACKGROUND
+							if ( !this.previous )
+								this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + options.postImages[ imageNumber ] + ')';
+
+						}
+
+						// IF THE IMAGE FOR THIS EXISTS BUT IS NOT APPENDED > APPEND TO THE IMAGE LIST WRAPPER
+						if ( this[ 'imageEl' + imageNumber ] && this[ 'imageEl' + imageNumber ].parentNode != this.postImageListEl )
+							this.postImageListEl.appendChild( this[ 'imageEl' + imageNumber ] );
+
+						// IF VALUE OF IMAGES HAS CHANGED > UPDATE THE BACKGROUND IMAGE OF CHANGED IMAGES
+						if ( this.previous && this.previous.postImages[ imageNumber ] != options.postImages[ imageNumber ] )
+							this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + options.postImages[ imageNumber ] + ')';
+
+					}
+
+				}
+
+				// IF THERE ARE LESS IMAGES THAN LAST CALL > REMOVE ECCESS IMAGES
+				if ( this.previous && this.previous.postImages.length > options.postImages.length ) {
+
+					for ( var imageNumber in this.previous.postImages ) {
+
+						if ( imageNumber >= options.postImages.length && ( this[ 'imageEl' + imageNumber ] && this[ 'imageEl' + imageNumber ].parentNode ) )
+							this.postImageListEl.removeChild( this[ 'imageEl' + imageNumber ] );
+
+					}
+
+				}
+
+			}
+
+			return this;
 
 		}
 
