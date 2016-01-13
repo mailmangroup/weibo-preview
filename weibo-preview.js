@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.19
+ * Version: 1.0.20
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -295,6 +295,8 @@
 				post.postTime = testDefaults( defaults.postTime, post.postTime );
 				post.postSource = testDefaults( defaults.postSource, post.postSource );
 
+				if ( !content.originalPost ) post.originalPost = null;
+
 			}
 
 			// IF POST WRAPPER DOESNT EXIST > CREATE POST WRAPPER
@@ -483,7 +485,9 @@
 				if ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody )
 					this.setMedia( post, this.repostEl, this.repostedTextEl );
 
-			}
+			} else if ( !post.originalPost && this.previous && this.previous.originalPost )
+				this.repostEl.parentNode.removeChild( this.repostEl );
+
 
 			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
 			this.previous = post;
@@ -587,37 +591,50 @@
 
 		setImages: function( options, targetParent ) {
 
+			if ( options.postImages.length > 0 && !options.originalPost )
+				var arrayPath = options;
+
+			else if ( options.originalPost && options.originalPost.postImages && options.originalPost.postImages.length > 0 )
+				var arrayPath = options.originalPost;
+
+			var imagesArray = arrayPath.postImages;
+
+			if ( arrayPath == options && this.previous )
+				var previous = this.previous;
+
+			if ( arrayPath == options.originalPost && ( this.previous && this.previous.originalPost ) )
+				var previous = this.previous.originalPost;
+
 			// CREATE POST IMAGES
 			// =========================================================================
-			if ( !this.postImageListEl && options.postImages.length > 0 && typeof options.postImages == 'object' )
+			if ( !this.postImageListEl && imagesArray.length > 0 && typeof imagesArray == 'object' )
 				this.create( 'postImageListEl', 'div' );
 
-			else if ( typeof options.postImages != 'object' )
-				throw new TypeError( 'Error: postImages expects an Array, ' + typeof options.postImages + ' was given.' );
+			else if ( typeof imagesArray != 'object' )
+				throw new TypeError( 'Error: postImages expects an Array, ' + typeof imagesArray + ' was given.' );
 
 			// IF IMAGE LIST EXISTS BUT HASNT BEEN APPENDED TO BODY > APPEND TO BODY
-			if ( this.postImageListEl && this.postImageListEl.parentNode != this.postBody && options.postImages.length > 0 )
+			if ( this.postImageListEl && this.postImageListEl.parentNode != targetParent && arrayPath.postImages.length > 0 )
 				targetParent.appendChild( this.postImageListEl );
 
 			if ( this.postImageListEl )
-				this.postImageListEl.className = 'post-images image-layout-' + options.postImages.length;
+				this.postImageListEl.className = 'post-images image-layout-' + arrayPath.postImages.length;
 
 			// IF POST IMAGES IS DEFINED AND DOESNT EQUAL PREVIOUS IMAGES
-			if ( options.postImages && ( !this.previous || options.postImages != this.previous.postImages ) ) {
+			if ( arrayPath.postImages && ( !previous || arrayPath.postImages != previous.postImages ) ) {
 
 				// ONLY CREATE IMAGES IF ARRAY LENGTH IS NOT GREATER THAN MAXIMUM AMOUNT OF IMAGES ALLOWED IN WEIBO
-				if ( options.postImages.length <= 9 && options.postImages.length != 0 ) {
+				if ( arrayPath.postImages.length <= 9 && arrayPath.postImages.length != 0 ) {
 
-					for ( var imageNumber in options.postImages ) {
+					for ( var imageNumber in arrayPath.postImages ) {
 
 						// IF IMAGE ELEMENT AT THIS INDEX DOESNT EXIST > CREATE IMAGE ELEMENT
 						if ( !this[ 'imageEl' + imageNumber ] ) {
 
 							this.create( 'imageEl' + imageNumber, 'div', 'post-image ' + 'post-image-' + ( parseInt( [ imageNumber ] ) + 1 ) );
 
-							// IF BACKGROUND IMAGE FOR IMAGE ELEMENT IS NOT YET SET > SET THE BACKGROUND
-							if ( !this.previous )
-								this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + options.postImages[ imageNumber ] + ')';
+							// SET THE BACKGROUND
+							this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + arrayPath.postImages[ imageNumber ] + ')';
 
 						}
 
@@ -626,20 +643,20 @@
 							this.postImageListEl.appendChild( this[ 'imageEl' + imageNumber ] );
 
 						// IF VALUE OF IMAGES HAS CHANGED > UPDATE THE BACKGROUND IMAGE OF CHANGED IMAGES
-						if ( this.previous && this.previous.postImages[ imageNumber ] != options.postImages[ imageNumber ] )
-							this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + options.postImages[ imageNumber ] + ')';
+						if ( previous && previous.postImages[ imageNumber ] != arrayPath.postImages[ imageNumber ] )
+							this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + arrayPath.postImages[ imageNumber ] + ')';
 
 					}
 
 				}
 
 				// IF THERE ARE LESS IMAGES THAN LAST CALL > REMOVE ECCESS IMAGES
-				if ( this.previous && this.previous.postImages.length > options.postImages.length ) {
+				if ( this.previous && ( ( this.previous.postImages && this.previous.postImages.length > arrayPath.postImages.length ) || ( this.previous.originalPost && this.previous.originalPost.postImages.length > arrayPath.postImages.length ) ) ) {
 
-					for ( var imageNumber in this.previous.postImages ) {
+					for ( var i = 0; i < 9; i++ ) {
 
-						if ( imageNumber >= options.postImages.length && ( this[ 'imageEl' + imageNumber ] && this[ 'imageEl' + imageNumber ].parentNode ) )
-							this.postImageListEl.removeChild( this[ 'imageEl' + imageNumber ] );
+						if ( i >= arrayPath.postImages.length && ( this[ 'imageEl' + i ] && this[ 'imageEl' + i ].parentNode ) )
+							this.postImageListEl.removeChild( this[ 'imageEl' + i ] );
 
 					}
 
