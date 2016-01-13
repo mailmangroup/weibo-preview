@@ -432,8 +432,8 @@
 			if ( post.postImages.length > 0 && !post.originalPost && ( !this.mediaLinkEl || !this.mediaLinkEl.parentNode ) )
 				this.setImages( post, this.postBody );
 
-			// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS > REMOVE IMAGE LIST
-			else if ( post.postImages.length == 0 && this.postImageListEl && this.postImageListEl.parentNode )
+			// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS OR THERES A REPOST > REMOVE IMAGE LIST
+			else if ( this.postImageListEl && this.postImageListEl.parentNode && ( post.postImages.length == 0 || post.originalPost ) )
 				this.postImageListEl.parentNode.removeChild( this.postImageListEl );
 
 			// IF NO REPOSTED CONTENT AND M › SET MEDIA CONTENT TO POST BODY
@@ -468,7 +468,7 @@
 				var accountNameLink = '<a target="_blank" href="http://weibo.com/n/' + repost.accountName + '">' + repost.accountName + '</a>';
 
 				// SET VALUE OF POST TEXT ELEMENT
-				if ( repost.postText && ( !this.previous || parseString( repost.postText ) != parseString( this.previous.originalPost.postText ) ) )
+				if ( repost.postText )
 					this.repostedTextEl.innerHTML = accountNameLink + ':' + parseString( repost.postText );
 
 				// IF POST IMAGE LENGTH IS GREATER THAN 0 AND NOT A REPOST › SET IMAGES TO POST BODY

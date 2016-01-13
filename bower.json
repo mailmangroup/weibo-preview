@@ -7,7 +7,7 @@
     ".gitignore",
     ".gitattributes",
     ".git/*",
-    "example/*",
+    "example",
     "node_modules",
     "index.html",
     "*.json",
