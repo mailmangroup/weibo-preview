@@ -1,5 +1,5 @@
 # Weibo Preview
-[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.18-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.19-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 To provide a better service of publishing through our platform, we wanted a way for users to see a live preview of how their post will look within Weibo.
 
@@ -103,6 +103,14 @@ Type: `string`
 Default: `null`
 
 Expects a string in the form of an image URL.
+
+#### content.postSource
+
+Type: `string`
+
+Default: `微博 weibo.com`
+
+This is where Weibo marks the post as being published from.
 
 #### content.postImages
 

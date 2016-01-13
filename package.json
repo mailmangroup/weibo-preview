@@ -1,6 +1,6 @@
 {
   "name": "weibo_preview",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "main": "gulpfile.js",
   "dependencies": {
     "gulp": "~3.8.11",
