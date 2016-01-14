@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.20
+ * Version: 1.0.21
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -432,7 +432,7 @@
 			// IF POST IMAGE LENGTH IS GREATER THAN 0 AND NOT A REPOST › SET IMAGES TO POST BODY
 			// =========================================================================
 			if ( post.postImages.length > 0 && !post.originalPost && ( !this.mediaLinkEl || !this.mediaLinkEl.parentNode ) )
-				this.setImages( post, this.postBody );
+				this.setImages( post.postImages, this.postBody );
 
 			// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS OR THERES A REPOST > REMOVE IMAGE LIST
 			else if ( this.postImageListEl && this.postImageListEl.parentNode && ( post.postImages.length == 0 || post.originalPost ) )
@@ -476,7 +476,7 @@
 				// IF POST IMAGE LENGTH IS GREATER THAN 0 AND NOT A REPOST › SET IMAGES TO POST BODY
 				// =========================================================================
 				if ( repost.postImages && repost.postImages.length > 0 )
-					this.setImages( post, this.repostEl );
+					this.setImages( repost.postImages, this.repostEl );
 
 				// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS > REMOVE IMAGE LIST
 				else if ( repost.postImages && repost.postImages.length == 0 && this.postImageListEl && this.postImageListEl.parentNode )
@@ -485,8 +485,10 @@
 				if ( !this.postImageListEl || this.postImageListEl.parentNode != this.postBody )
 					this.setMedia( post, this.repostEl, this.repostedTextEl );
 
-			} else if ( !post.originalPost && this.previous && this.previous.originalPost )
+			} else if ( !post.originalPost && this.previous && this.previous.originalPost ) {
 				this.repostEl.parentNode.removeChild( this.repostEl );
+				console.log( 'remove' )
+			}
 
 
 			// SET CURRENT OPTIONS AS PREVIOUS TO COMPARE WITH NEXT TIME GENERATE IS RUN
@@ -589,76 +591,46 @@
 
 		},
 
-		setImages: function( options, targetParent ) {
+		setImages: function( imageArray, targetParent ) {
 
-			if ( options.postImages.length > 0 && !options.originalPost )
-				var arrayPath = options;
-
-			else if ( options.originalPost && options.originalPost.postImages && options.originalPost.postImages.length > 0 )
-				var arrayPath = options.originalPost;
-
-			var imagesArray = arrayPath.postImages;
-
-			if ( arrayPath == options && this.previous )
-				var previous = this.previous;
-
-			if ( arrayPath == options.originalPost && ( this.previous && this.previous.originalPost ) )
-				var previous = this.previous.originalPost;
-
-			// CREATE POST IMAGES
-			// =========================================================================
-			if ( !this.postImageListEl && imagesArray.length > 0 && typeof imagesArray == 'object' )
+			// IF NO CONTAINER ELEMENT › CREATE THE ELEMENT
+			if ( !this.postImageListEl )
 				this.create( 'postImageListEl', 'div' );
 
-			else if ( typeof imagesArray != 'object' )
-				throw new TypeError( 'Error: postImages expects an Array, ' + typeof imagesArray + ' was given.' );
-
-			// IF IMAGE LIST EXISTS BUT HASNT BEEN APPENDED TO BODY > APPEND TO BODY
-			if ( this.postImageListEl && this.postImageListEl.parentNode != targetParent && arrayPath.postImages.length > 0 )
+			// IF TARGET PARENT › APPEND TO TARGET PARENT
+			if ( targetParent )
 				targetParent.appendChild( this.postImageListEl );
 
-			if ( this.postImageListEl )
-				this.postImageListEl.className = 'post-images image-layout-' + arrayPath.postImages.length;
+			else if ( this.postImageListEl.parentNode )
+				this.postImageListEl.parentNode.removeChild( this.postImageListEl );
 
-			// IF POST IMAGES IS DEFINED AND DOESNT EQUAL PREVIOUS IMAGES
-			if ( arrayPath.postImages && ( !previous || arrayPath.postImages != previous.postImages ) ) {
+			// SET IMAGE ARRAY CLASSNAME FOR LAYOUT
+			this.postImageListEl.className = 'post-images image-layout-' + imageArray.length;
 
-				// ONLY CREATE IMAGES IF ARRAY LENGTH IS NOT GREATER THAN MAXIMUM AMOUNT OF IMAGES ALLOWED IN WEIBO
-				if ( arrayPath.postImages.length <= 9 && arrayPath.postImages.length != 0 ) {
+			// LOOP THROUGH 9 IMAGES
+			for ( var i = 0; i < 9; i++ ) {
 
-					for ( var imageNumber in arrayPath.postImages ) {
+				// CREATE THE IMAGE ELEMENTS
+				if ( !this[ 'imageEl' + ( i + 1 ) ] )
+					this.create( 'imageEl' + ( i + 1 ), 'div', 'post-image post-image-' + ( i + 1 ) );
 
-						// IF IMAGE ELEMENT AT THIS INDEX DOESNT EXIST > CREATE IMAGE ELEMENT
-						if ( !this[ 'imageEl' + imageNumber ] ) {
+				// SET IMAGE ELEMENT TO VARIABLE
+				var imageElement = this[ 'imageEl' + ( i + 1 ) ];
 
-							this.create( 'imageEl' + imageNumber, 'div', 'post-image ' + 'post-image-' + ( parseInt( [ imageNumber ] ) + 1 ) );
+				if ( i < imageArray.length ) {
 
-							// SET THE BACKGROUND
-							this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + arrayPath.postImages[ imageNumber ] + ')';
+					// SET BACKGROUND IMAGE OF IMAGEELEMENT
+					imageElement.style.backgroundImage = 'url(\'' + imageArray[ i ] + '\')';
 
-						}
+					// IF IMAGE ELEMENT DOESNT HAVE A PARENT › APPEND THE ELEMENT
+					if ( !imageElement.parentNode )
+						this.postImageListEl.appendChild( imageElement );
 
-						// IF THE IMAGE FOR THIS EXISTS BUT IS NOT APPENDED > APPEND TO THE IMAGE LIST WRAPPER
-						if ( this[ 'imageEl' + imageNumber ] && this[ 'imageEl' + imageNumber ].parentNode != this.postImageListEl )
-							this.postImageListEl.appendChild( this[ 'imageEl' + imageNumber ] );
+				} else if ( i >= imageArray.length ) {
 
-						// IF VALUE OF IMAGES HAS CHANGED > UPDATE THE BACKGROUND IMAGE OF CHANGED IMAGES
-						if ( previous && previous.postImages[ imageNumber ] != arrayPath.postImages[ imageNumber ] )
-							this[ 'imageEl' + imageNumber ].style.backgroundImage = 'url(' + arrayPath.postImages[ imageNumber ] + ')';
-
-					}
-
-				}
-
-				// IF THERE ARE LESS IMAGES THAN LAST CALL > REMOVE ECCESS IMAGES
-				if ( this.previous && ( ( this.previous.postImages && this.previous.postImages.length > arrayPath.postImages.length ) || ( this.previous.originalPost && this.previous.originalPost.postImages.length > arrayPath.postImages.length ) ) ) {
-
-					for ( var i = 0; i < 9; i++ ) {
-
-						if ( i >= arrayPath.postImages.length && ( this[ 'imageEl' + i ] && this[ 'imageEl' + i ].parentNode ) )
-							this.postImageListEl.removeChild( this[ 'imageEl' + i ] );
-
-					}
+					// IF IMAGE ELEMENT HAS PARENTNODE AND IS GREATER THAN LENGTH › REMOVE FROM PARENT
+					if ( imageElement.parentNode )
+						imageElement.parentNode.removeChild( imageElement );
 
 				}
 
