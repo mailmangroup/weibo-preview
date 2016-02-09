@@ -169,7 +169,13 @@
 			// PARSE A TEXT STRING AND CONVERT WEIBO #HASHTAGS# TO LINKS
 			return string.replace( /#([^]+?)#/gi, function( matches, tag ) {
 
-				return '<a href="http://huati.weibo.com/k/' + tag + '" class="link" target="_blank">#' + tag + '#</a>';
+				var tagUrl = tag.replace( /(\<i)+.+(<\/i>)/gi, function( matches, tag ) {
+
+					return matches.match( /\[(\S+?)\]/g );
+
+				});
+
+				return '<a href="http://huati.weibo.com/k/' + tagUrl + '" class="link" target="_blank">#' + tag + '#</a>';
 
 			});
 
@@ -487,7 +493,6 @@
 
 			} else if ( !post.originalPost && this.previous && this.previous.originalPost ) {
 				this.repostEl.parentNode.removeChild( this.repostEl );
-				console.log( 'remove' )
 			}
 
 
