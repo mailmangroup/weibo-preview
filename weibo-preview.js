@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.22
+ * Version: 1.0.23
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -301,7 +301,7 @@
 				post.postTime = testDefaults( defaults.postTime, post.postTime );
 				post.postSource = testDefaults( defaults.postSource, post.postSource );
 
-				if ( !content.originalPost ) post.originalPost = null;
+				if ( content && !content.originalPost ) post.originalPost = null;
 
 			}
 
