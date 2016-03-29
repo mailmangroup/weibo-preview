@@ -1,12 +1,16 @@
 {
   "name": "weibo-preview",
-  "version": "1.0.14",
+  "version": "1.0.24",
   "main": "dist/weibo-preview.min.js",
   "ignore": [
     ".bowerrc",
     ".gitignore",
     ".gitattributes",
     ".git/*",
-    "bower.json"
+    "example",
+    "node_modules",
+    "index.html",
+    "*.json",
+    "gulpfile.js"
   ]
 }

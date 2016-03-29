@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<title>Weibo Preview | KAWO Technologies</title>
+	<link rel="stylesheet" href="./preview.css">
+	<link rel="stylesheet" href="./example/styles.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+	<h1>Weibo Preview</h1>
+	<p>Our publishing tool, <a href="http://kawo.com">KAWO</a>, needed to show users how the content they were creating would be consumed, and since over 80% of Weibo usage is on mobile we decided to create a preview of the Weibo iOS app that updates as they create their post.</p>
+
+	<div>
+
+		<input  id="post-text" name="post-text" type="textarea" placeholder="Post text...">
+		<input id="account-image-input" name="account-image" type="text" placeholder="Account image URL...">
+		<input id="account-name" name="account-name" type="text" placeholder="Account name...">
+		<input id="post-source" name="post-source" type="text" placeholder="Post source...">
+
+		<h2>Images</h2>
+		<p>For the purpose of this demo, images cannot be selected by the user but will be show according to the number of images specified.</p>
+
+		<div class="btn-group"id="images">
+			<button class="btn add-image" id="img0">0</button>
+			<button class="btn add-image" id="img1">1</button>
+			<button class="btn add-image" id="img2">2</button>
+			<button class="btn add-image" id="img3">3</button>
+			<button class="btn add-image" id="img4">4</button>
+			<button class="btn add-image" id="img5">5</button>
+			<button class="btn add-image" id="img6">6</button>
+			<button class="btn add-image" id="img7">7</button>
+			<button class="btn add-image" id="img8">8</button>
+			<button class="btn add-image" id="img9">9</button>
+		</div>
+
+	</div>
+
+	<div class="btn-group">
+		<a href="https://github.com/mailmangroup/weibo-preview" class="btn btn-img github"><div class="image"><img src="./example/images/github.svg"></div>View on Github</a>
+	</div>
+
+	<p>MIT &copy; <a href="http://kawo.com">KAWO Technologies</a></p>
+
+</div>
+
+<div id="preview"></div>
+
+</body>
+<script type="text/javascript" src="./weibo-preview.js"></script>
+<script type="text/javascript" src="./example/demo.js"></script>
+</html>

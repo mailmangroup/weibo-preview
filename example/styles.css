@@ -1,0 +1,261 @@
+body {
+	background: #e5e5e5;
+	max-height: 100vh;
+	position: relative;
+	font-size: 14px;
+	margin: 0 auto;
+	font-family: Helvetica;
+	display: block;
+	text-align: left;
+	overflow: scroll;
+	max-width: 1440px;
+    background: #e5e5e5;
+	
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+
+	-webkit-justify-content: flex-start;
+	-ms-flex-pack: flex-start;
+    justify-content: flex-start;
+
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+h1, h2 {
+	text-transform: uppercase;
+	color: #333;
+}
+
+h2 {
+	margin-bottom: 5px;
+}
+
+p {
+	line-height: 1.4;
+	color: #666;
+	margin-top: 5px;
+}
+
+a {
+	color: #08c;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #08c;
+}
+
+.sidebar {
+	background: #FFF;
+	width: 540px;
+	height: 100vh;
+	padding: 30px;
+	overflow: scroll;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.sidebar .btn-group {
+	padding: 0;
+	text-align: left;
+}
+
+#images .btn {
+	margin: 2px;
+}
+
+input,
+textarea,
+select {
+	position: relative;
+	width: 100%;
+	border: none;
+	outline: none;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: 14px;
+	margin: 5px auto;
+	border-radius: 0;
+	min-height: 44px;
+	background: whitesmoke;
+}
+
+#preview {
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    
+    -webkit-align-content: center;
+    -ms-align-content: center;
+    align-content: center;
+
+    -webkit-align-items: center;
+  	-ms-align-items: center;
+    align-items: center;
+
+    -webkit-flex: 1 0 auto;
+	-ms-flex: 1 0 auto;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: auto;
+
+    background: #333;
+    overflow: scroll;
+}
+
+@media screen and ( max-width: 940px ) {
+
+	body {
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		overflow: auto;
+	}
+
+	.sidebar {
+		height: auto;
+		width: 100%;
+		flex: 1 0 auto;
+	}
+
+	#preview {
+		padding: 50px 0;
+	}
+
+}
+
+/* =======================================================================================
+BUTTONS
+======================================================================================= */
+.btn {
+	display: inline-block;
+	height: 44px;
+	min-width: 44px;
+	text-decoration: none;
+	font-size: 10px;
+	line-height: 44px;
+	padding: 0 10px 0 12px;
+	margin: 10px 0 10px 0;
+	position: relative;
+	transition: all .5s;
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	border: none;
+	border-radius: 0;
+	text-decoration: none;
+	color: #555;
+	background-color: rgba(0,0,0,0.07);
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 600;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+
+.btn:hover {
+	color: #333;
+	background-color: rgba(0,0,0,0.13);
+}
+
+.btn:after,
+.btn:before {
+	background-color: #555;
+	border-color: #555;
+}
+
+.btn:hover:after,
+.btn:hover:before {
+	background-color: #333;
+	border-color: #333;
+}
+
+.btn-img {
+	padding-left: 40px;
+}
+
+.btn img,
+.btn .image,
+.btn:hover .image {
+	width: 44px;
+	height: 44px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: transparent;
+	margin: 0;
+}
+
+.btn-img .image {
+	background-image: none;
+}
+
+.btn-img img {
+	max-height: 70%;
+	vertical-align: middle;
+	top: 15%;
+	fill: #FFF;
+}
+
+.btn-group {
+    width: 100%;
+
+    padding: 0 10px;
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.btn-group > .btn {
+	-webkit-flex: 1 1 0px;
+	-ms-flex: 1 1 0px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0px;
+	margin-right: 2px;
+}
+
+.btn-group > .btn:last-child {
+	margin-right: 0;
+}
+
+@media screen and (min-width: 601px) {
+
+	.btn {
+		font-size: 14px;
+		border-radius: 2px;
+	}
+
+}
+
+.github,
+.github:hover {
+	background-color: black;
+	color: #FFF;
+}
+
+.twitter,
+.twitter:hover {
+	color: #FFF;
+	background-color: #55acee;
+}

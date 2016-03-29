@@ -1,5 +1,5 @@
 # Weibo Preview
-[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.14-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![weibo-preview version](https://img.shields.io/badge/weibo--preview-v1.0.24-brightgreen.svg)](https://github.com/mailmangroup/weibo-preview/) [![License](http://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 To provide a better service of publishing through our platform, we wanted a way for users to see a live preview of how their post will look within Weibo.
 
@@ -83,11 +83,18 @@ Whitelisted screen size strings:
 - iPhone 6 Plus
 
 ### Preview( content ) Options
+#### content.postText
+Type: `string`
+
+Default: `微博正文。。。`
+
+This is the post text of the microblog.
+
 #### content.accountName
 
 Type: `string`
 
-Default: `'Account Name'`
+Default: `账户名称`
 
 #### content.accountImage
 
@@ -96,6 +103,14 @@ Type: `string`
 Default: `null`
 
 Expects a string in the form of an image URL.
+
+#### content.postSource
+
+Type: `string`
+
+Default: `微博 weibo.com`
+
+This is where Weibo marks the post as being published from.
 
 #### content.postImages
 
@@ -123,3 +138,43 @@ Type: `Boolean`
 Default: `false`
 
 Will mark the account as verified or not.
+
+#### content.originalPost
+
+Type: `object`
+
+Default: `null`
+
+Passing this option styles the post as a repost. The `originalPost` object is the post content and account name of the post that is being reposted.
+
+##### originalPost.accountName
+
+Type: `string`
+
+Default: `账户名称`
+
+This is the nickname of the acount who posted what is being reposted.
+
+##### originalPost.postText
+
+Type: `string`
+
+Default: `null`
+
+This is the content of the original post that is being reposted.
+
+##### originalPost.postImages
+
+Type: `Array`
+
+Default: `[]`
+
+Expects an array of strings in the form of image URL's, i.e.
+```javascript
+originalPost: {
+	postImages: [
+		'http://www.example.com/images/foo.jpg',
+		'http://www.example.com/images/bar.jpg'
+	]
+}
+```

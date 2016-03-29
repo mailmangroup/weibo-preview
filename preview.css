@@ -34,19 +34,14 @@
 	color: #333;
 	margin: 0.21878rem 0;
 	padding: 0;
-	word-break: break-all;
+	word-break: break-word;
 	word-wrap: break-word;
 	line-height: 1.5rem;
-	letter-spacing: 0.8px;
-	font-size: 1.065rem;
+	letter-spacing: normal;
+	font-size: 1.06rem;
 	font-weight: 400;
 	margin-top: 0;
 	-webkit-font-smoothing: antialiased;
-}
-
-.post-wrapper .preview-en {
-	letter-spacing: 0;
-	word-break: break-word;
 }
 
 .post-wrapper a,
@@ -237,8 +232,12 @@
 	background-image: url( './images/video.png' );
 }
 
-.post-wrapper .vpreview .preview-vlink:first-of-type {
+.post-wrapper .vpreview .preview-vlink {
 	display: none;
+}
+
+.post-wrapper .vpreview .preview-vlink ~ .preview-vlink {
+	display: inline-block;
 }
 
 /* POST IMAGES
@@ -409,6 +408,42 @@
 	right: 0;
 	background-image: linear-gradient(to right, #e6e6e6 0%, #e6e6e6 51%, transparent 51%);
     background-size: 100% 1px;
+}
+
+/* EMOJI
+ * ------------------------------------------------------------------------- */
+.wp-emoji {
+    overflow: hidden;
+    text-indent: -300px;
+    float: none;
+    display: inline-block;
+    margin: 0 2px;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+    -webkit-background-size: 100% auto;
+    background-size: 100% auto;
+}
+
+/* REPOST
+ * ------------------------------------------------------------------------- */
+.reposted-content {
+	background-color: #F7F7F7;
+	margin-top: -0.625rem;
+	padding: 0.25rem 0.75rem;
+}
+
+.reposted-content p {
+	color: #636363;
+}
+
+.reposted-content .media-preview {
+	background-color: #FFF;
+}
+
+.reposted-content .media-preview,
+.reposted-content .post-images {
+	padding-bottom: 0.375rem;
 }
 
 /* RESPONSIVE
