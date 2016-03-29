@@ -432,12 +432,12 @@
 				this.postTextEl.innerHTML = parseString( post.postText );
 
 			// IF VALUE PROVIDED WAS ONLY WHITESPACE › REVERT TO DEFAULT
-			if ( post.postText.trim().length == 0 )
+			if ( post.postText && post.postText.trim().length == 0 )
 				this.postTextEl.innerHTML = defaults.postText;
 
 			// IF POST IMAGE LENGTH IS GREATER THAN 0 AND NOT A REPOST › SET IMAGES TO POST BODY
 			// =========================================================================
-			if ( post.postImages.length > 0 && !post.originalPost && ( !this.mediaLinkEl || !this.mediaLinkEl.parentNode ) )
+			if ( ( post.postImages && post.postImages.length ) > 0 && !post.originalPost && ( !this.mediaLinkEl || !this.mediaLinkEl.parentNode ) )
 				this.setImages( post.postImages, this.postBody );
 
 			// ELSE IF THERE ARE NO IMAGES IN CALL AND IMAGE LIST EXISTS OR THERES A REPOST > REMOVE IMAGE LIST
