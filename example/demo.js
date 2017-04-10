@@ -8,7 +8,10 @@ preview.generate( {
 		'./example/images/img2.jpg',
 		'./example/images/img3.jpg'
 	],
-	verified: true
+	verified: true,
+	likes: 14,
+	forwards: 15,
+	comments: 123
 });
 
 var a = document.getElementById( 'post-text' );

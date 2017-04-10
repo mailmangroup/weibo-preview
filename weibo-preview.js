@@ -1,7 +1,7 @@
 /*
  * Weibo Preview
  * Author: Fergus Jordan
- * Version: 1.0.27
+ * Version: 1.0.28
  *
  * Real-time preview of content on Sina Weibo's iOS app
  */
@@ -175,7 +175,7 @@
 			});
 
 			// PARSE A TEXT STRING AND CONVERT WEIBO #HASHTAGS# TO LINKS
-			return string.replace( /#([^]+?)#/gi, function( matches, tag ) {
+			return string.replace( /#([^#"]+)#/gi, function( matches, tag ) {
 
 				var tagUrl = tag.replace( /(\<i)+.+(<\/i>)/gi, function( matches, tag ) {
 
@@ -294,7 +294,10 @@
 						postImages: [],
 						originalPost: null,
 						verified: false,
-						featuredHashtag: false
+						featuredHashtag: false,
+						likes: null,
+						comments: null,
+						forwards: null
 					}, content );
 
 			} else {
@@ -342,19 +345,19 @@
 				// CREATE POST FORWARDS
 				this.create( 'postForwardsEl', 'div', 'post-forwards', this.postEngagementEl );
 				this.create( 'postForwards', 'span', null, this.postForwardsEl );
-				this.postForwards.innerHTML = '转发';
 
 				// CREATE POST COMMENTS
 				this.create( 'postCommentsEl', 'div', 'post-comments', this.postEngagementEl );
 				this.create( 'postComments', 'span', null, this.postCommentsEl );
-				this.postComments.innerHTML = '评论';
 
 				// CREATE POST LIKES
 				this.create( 'postLikesEl', 'div', 'post-likes', this.postEngagementEl );
 				this.create( 'postLikes', 'span', null, this.postLikesEl );
-				this.postLikes.innerHTML = '赞';
-
 			}
+
+			this.postForwards.innerHTML = post.forwards || '转发';
+			this.postComments.innerHTML = post.comments || '评论';
+			this.postLikes.innerHTML = post.likes || '赞';
 
 			// CREATE ACCOUNT IMAGE
 			// =========================================================================

@@ -345,7 +345,6 @@
 .post-wrapper .post-engagement span {
 	font-weight: 300;
 	margin-left: 4px;
-    -webkit-font-smoothing: antialiased;
 }
 
 .post-wrapper .post-forwards,
